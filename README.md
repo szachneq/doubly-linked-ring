@@ -13,8 +13,22 @@ Run the project:
 ```bash
 $ ./build/21Z-EADS-TASK1-SZACHNO-JAN
 ```
+or
+```bash
+$ ./run
+```
 
 Run tests:
 ```bash
 $ (cd build && ctest)
+```
+or
+```bash
+$ ./test
+```
+
+> Note: For ```./run``` and ```./test``` scripts to run you might have to run this command
+
+```bash
+$ chmod +x run test
 ```
