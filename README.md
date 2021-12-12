@@ -27,8 +27,13 @@ or
 $ ./test
 ```
 
-> Note: For ```./run``` and ```./test``` scripts to run you might have to run this command
+Run memory leak test:
+```bash
+$ ./memcheck
+```
+
+> Note: For ```./run```, ```./test``` and ```./memcheck``` scripts to run you might have to run this command
 
 ```bash
-$ chmod +x run test
+$ chmod +x run test memcheck
 ```

@@ -9,7 +9,7 @@ set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-SET(CMAKE_CXX_FLAGS  "-Wall -Wextra -Werror")
+SET(CMAKE_CXX_FLAGS  "-Wall -Wextra -Werror -ggdb3")
 include(CPack)
 
 include(FetchContent)
