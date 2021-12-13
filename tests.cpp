@@ -157,6 +157,10 @@ TEST(Ring, remove_all) {
     SUCCEED();
 }
 
+TEST(Ring, push_end) {
+    SUCCEED();
+}
+
 TEST(Ring, iterator) {
     Ring<int, int> ring;
     auto it = ring.insert(ring.begin(), 1, 1);
@@ -176,5 +180,51 @@ TEST(Ring, iterator) {
 }
 
 TEST(Ring, shuffle) {
-    SUCCEED();
+    Ring<std::string, int> first;
+    first.push_end("uno", 1);
+    first.push_end("due", 2);
+    first.push_end("tre", 3);
+    first.push_end("quattro", 4);
+
+    Ring<std::string, int> second;
+    second.push_end("bir", 1);
+    second.push_end("iki", 2);
+    second.push_end("uc", 3);
+    second.push_end("dort", 4);
+    second.push_end("bes", 5);
+
+    Ring<std::string, int> result = shuffle(first, 1, second, 2, 3);
+    std::string keys[] = {"uno", "bir", "iki", "due", "uc", "dort", "tre", "bes", "bir"};
+    int infos[] = {1, 1, 2, 2, 3, 4, 3, 5, 1};
+
+    auto it = result.begin();
+    for (int i = 0; i < 9; i++) {
+        ASSERT_EQ(it->first, keys[i]);
+        ASSERT_EQ(it->second, infos[i]);
+        it++;
+    }
+    ASSERT_EQ(result.empty(), false);
+
+    Ring<std::string, int> empty;
+
+    Ring<std::string, int> r1 = shuffle(first, 1, empty, 2, 3);
+    ASSERT_EQ(r1.empty(), false);
+    auto it_r1 = r1.begin();
+    auto it_first = first.begin();
+    for (auto it = first.begin(); it != first.end(); it++) {
+        ASSERT_EQ(it_r1->first, it_first->first);
+        ASSERT_EQ(it_r1->second, it_first->second);
+    }
+
+    Ring<std::string, int> r2 = shuffle(empty, 1, second, 2, 3);
+    ASSERT_EQ(r2.empty(), false);
+    auto it_r2 = r2.begin();
+    auto it_second = second.begin();
+    for (auto it = second.begin(); it != second.end(); it++) {
+        ASSERT_EQ(it_r2->first, it_second->first);
+        ASSERT_EQ(it_r2->second, it_second->second);
+    }
+
+    Ring<std::string, int> r3 = shuffle(empty, 1, empty, 2, 3);
+    ASSERT_EQ(r3.empty(), true);
 }

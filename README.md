@@ -1,4 +1,4 @@
-# 21Z-EADS-TASK2-Szachno-Jan
+# Doubly Linked Ring
 
 This project represents doubly linked ring
 
@@ -15,7 +15,7 @@ $ ./build/21Z-EADS-TASK1-SZACHNO-JAN
 ```
 or
 ```bash
-$ ./run
+$ ./run.sh
 ```
 
 Run tests:
@@ -24,15 +24,15 @@ $ (cd build && ctest)
 ```
 or
 ```bash
-$ ./test
+$ ./test.sh
 ```
 
 Run memory leak test:
 ```bash
-$ ./memcheck
+$ ./memcheck.sh
 ```
 
-> Note: For ```./run```, ```./test``` and ```./memcheck``` scripts to run you might have to run this command
+> Note: For ```./run.sh```, ```./test.sh``` and ```./memcheck.sh``` scripts to run you might have to run this command
 
 ```bash
 $ chmod +x run test memcheck

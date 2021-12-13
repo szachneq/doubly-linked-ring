@@ -38,11 +38,13 @@ class Ring {
     // Assignment operator
     Ring& operator=(const Ring& src);
 
+    /*
     // Move contructor
     Ring(const Ring&& src);
 
     // Move assignment
     Ring& operator=(const Ring&& src);
+    */
 
     ~Ring();
 
@@ -153,6 +155,8 @@ class Ring {
     };
 
     iterator push_front(const Key& key, const Info& info);
+    
+    iterator push_end(const Key& key, const Info& info);
 
     iterator pop_front();
 

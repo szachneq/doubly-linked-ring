@@ -5,11 +5,11 @@
 template <typename Key, typename Info>
 void Ring<Key, Info>::copy_all(const Ring& src) {
     // Copying should only be possible for an empty ring
-    if (empty()) return;
+    if (!empty()) return;
     if (src.empty()) return;
 
-    for (auto it = src.begin(); it != src.end(); it++) {
-        push_front(it->key, it->info);
+    for (auto it = src.cbegin(); it != src.cend(); it++) {
+        push_end(it->first, it->second);
     }
 }
 
@@ -22,6 +22,9 @@ Ring<Key, Info>::Ring() {
 
 template <typename Key, typename Info>
 Ring<Key, Info>::Ring(const Ring& src) {
+    head = new Node();
+    head->prev = head;
+    head->next = head;
     copy_all(src);
 }
 
@@ -33,6 +36,7 @@ Ring<Key, Info>& Ring<Key, Info>::operator=(const Ring& src) {
     return *this;
 }
 
+/*
 template <typename Key, typename Info>
 Ring<Key, Info>::Ring(const Ring&& src) {
     // TODO
@@ -42,6 +46,7 @@ template <typename Key, typename Info>
 Ring<Key, Info>& Ring<Key, Info>::operator=(const Ring&& src) {
     // TODO
 }
+*/
 
 template <typename Key, typename Info>
 Ring<Key, Info>::~Ring() {
@@ -55,6 +60,13 @@ typename Ring<Key, Info>::iterator Ring<Key, Info>::push_front(const Key& key, c
     head->next->prev = n;
     head->next = n;
     auto it = iterator(n, this);
+    return it;
+}
+
+template <typename Key, typename Info>
+typename Ring<Key, Info>::iterator Ring<Key, Info>::push_end(const Key& key, const Info& info) {
+    auto last_elem = --iterator(end().current, this);
+    auto it = insert(last_elem, key, info);
     return it;
 }
 
@@ -117,7 +129,10 @@ typename Ring<Key, Info>::const_iterator Ring<Key, Info>::cend() const {
 
 template <typename Key, typename Info>
 bool Ring<Key, Info>::empty() const {
-    return head->next == head;
+    // std::cout << "is empty?" << std::endl;
+    bool result = head->next == head;
+    // std::cout << "checked if empty: " << result << std::endl;
+    return result;
 }
 
 template <typename Key, typename Info>
@@ -165,6 +180,26 @@ std::ostream& operator<<(std::ostream& out, const Ring<Key, Info>& ring) {
 template<typename Key, typename Info>
 Ring<Key, Info> shuffle(const Ring<Key, Info>& first, unsigned int fcnt, 
     const Ring<Key, Info>& second, unsigned int scnt, unsigned int reps) {
-    Ring<Key, Info> ring;
-    return ring;
+    if (first.empty()) return second;
+    if (second.empty()) return first;
+    
+    Ring<Key, Info> result;
+
+    auto it_first = first.cbegin();
+    auto it_second = second.cbegin();
+
+    for (unsigned int rep = 1; rep <= reps; rep++) {
+        for (unsigned int fcount = 1; fcount <= fcnt; fcount++) {
+            result.push_end(it_first->first, it_first->second);
+            it_first++;
+            if (it_first == first.cend()) it_first = first.cbegin();
+        }
+        for (unsigned int scount = 1; scount <= scnt; scount++) {
+            result.push_end(it_second->first, it_second->second);
+            it_second++;
+            if (it_second == second.cend()) it_second = second.cbegin();
+        }
+    }
+
+    return result;
 }
